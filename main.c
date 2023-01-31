@@ -8,8 +8,6 @@ void main() {
 
     memset(arr, ' ', 127);
 
-    drawCircle(500, 500, 20, 10, 1);
-
     while (1) {
         for (int i = 0; i < 128; i++) {
             memset(arr, 219, i);

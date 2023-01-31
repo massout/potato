@@ -100,7 +100,7 @@ void drawString(int x, int y, char *s, uint8_t attr) {
     }
 }
 
-void drawRect(int x1, int y1, int x2, int y2, uint8_t attr, int fill) {
+void drawRect(int x1, int y1, int x2, int y2, uint8_t attr, uint8_t fill) {
     int y = y1;
 
     while (y <= y2) {
@@ -110,10 +110,11 @@ void drawRect(int x1, int y1, int x2, int y2, uint8_t attr, int fill) {
             if ((x == x1 || x == x2) || (y == y1 || y == y2))
                 drawPixel(x, y, attr);
             else if (fill)
-                drawPixel(x, y, (attr & 0xf) >> 4);
+                drawPixel(x, y, (attr & 0xf));
 
             x++;
         }
+
         y++;
     }
 }
@@ -141,17 +142,17 @@ void drawLine(int x1, int y1, int x2, int y2, uint8_t attr) {
     }
 }
 
-void drawCircle(int x0, int y0, int radius, uint8_t attr, int fill) {
+void drawCircle(int x0, int y0, int radius, uint8_t attr, uint8_t fill) {
     int x = radius;
     int y = 0;
     int err = 0;
 
     while (x >= y) {
         if (fill) {
-            drawLine(x0 - y, y0 + x, x0 + y, y0 + x, (attr & 0xf) >> 4);
-            drawLine(x0 - x, y0 + y, x0 + x, y0 + y, (attr & 0xf) >> 4);
-            drawLine(x0 - x, y0 - y, x0 + x, y0 - y, (attr & 0xf) >> 4);
-            drawLine(x0 - y, y0 - x, x0 + y, y0 - x, (attr & 0xf) >> 4);
+            drawLine(x0 - y, y0 + x, x0 + y, y0 + x, (attr & 0xf));
+            drawLine(x0 - x, y0 + y, x0 + x, y0 + y, (attr & 0xf));
+            drawLine(x0 - x, y0 - y, x0 + x, y0 - y, (attr & 0xf));
+            drawLine(x0 - y, y0 - x, x0 + y, y0 - x, (attr & 0xf));
         }
 
         drawPixel(x0 - y, y0 + x, attr);
