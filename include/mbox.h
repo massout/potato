@@ -44,6 +44,13 @@
 
 volatile uint32_t mbox[36];
 
+/**
+ * It writes a message to the mailbox, and then waits for a response
+ *
+ * @param ch channel number (0-15)
+ *
+ * @return The return value is the value of the second element of the mbox array.
+ */
 int mbox_call(uint8_t ch) {
     uint32_t r = (((uint32_t)((uint64_t)&mbox) & ~0xF) | (ch & 0xF));
 

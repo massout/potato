@@ -9,6 +9,7 @@
 #define FONT_BPL 1
 #define FONT_NUMGLYPHS 224
 
+/* Defining a variable called vgapal, which is an array of 16 32-bit integers. */
 uint32_t vgapal[] = {
     0x000000,
     0x0000AA,

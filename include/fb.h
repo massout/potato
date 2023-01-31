@@ -8,6 +8,9 @@
 uint32_t width, height, pitch, isrgb;
 uint8_t *fb;
 
+/**
+ * It sets up the mailbox to request the framebuffer, and then calls the mailbox
+ */
 void fb_init() {
     mbox[0] = 35 * 4;
     mbox[1] = MBOX_REQUEST;
@@ -64,11 +67,28 @@ void fb_init() {
     }
 }
 
+/**
+ * It takes the x and y coordinates of a pixel, and the attribute of that pixel, and it writes the
+ * attribute to the framebuffer at the appropriate offset
+ *
+ * @param x The x coordinate of the pixel to draw.
+ * @param y The y coordinate of the pixel to draw.
+ * @param attr The attribute byte.
+ */
 void drawPixel(int x, int y, uint8_t attr) {
     int offs = (y * pitch) + (x * 4);
     *((uint32_t *)(fb + offs)) = vgapal[attr & 0x0f];
 }
 
+/**
+ * It draws a character at a given position on the screen
+ *
+ * @param ch The character to draw.
+ * @param x The x coordinate of the top left corner of the character
+ * @param y The y coordinate of the top left corner of the character.
+ * @param attr The attribute byte. The lower 4 bits are the foreground color, and the upper 4 bits are
+ * the background color.
+ */
 void drawChar(uint8_t ch, int x, int y, uint8_t attr) {
     uint8_t *glyph = (uint8_t *)&font + (ch < FONT_NUMGLYPHS ? ch : 0) * FONT_BPG;
 
@@ -84,6 +104,14 @@ void drawChar(uint8_t ch, int x, int y, uint8_t attr) {
     }
 }
 
+/**
+ * It draws a string of characters on the screen
+ *
+ * @param x The x coordinate of the top left corner of the first character.
+ * @param y The y coordinate of the top left corner of the first character.
+ * @param s The string to draw
+ * @param attr The attribute byte.
+ */
 void drawString(int x, int y, char *s, uint8_t attr) {
     while (*s) {
         if (*s == '\r') {
@@ -100,6 +128,16 @@ void drawString(int x, int y, char *s, uint8_t attr) {
     }
 }
 
+/**
+ * It draws a rectangle
+ *
+ * @param x1 The x coordinate of the top left corner of the rectangle
+ * @param y1 The y coordinate of the top left corner of the rectangle
+ * @param x2 The x coordinate of the bottom right corner of the rectangle
+ * @param y2 The y coordinate of the bottom right corner of the rectangle.
+ * @param attr The attribute byte.
+ * @param fill 0 = no fill, 1 = fill
+ */
 void drawRect(int x1, int y1, int x2, int y2, uint8_t attr, uint8_t fill) {
     int y = y1;
 
@@ -119,6 +157,15 @@ void drawRect(int x1, int y1, int x2, int y2, uint8_t attr, uint8_t fill) {
     }
 }
 
+/**
+ * If the slope is greater than 1, then we swap the x and y coordinates and draw the line
+ *
+ * @param x1 The x coordinate of the first point
+ * @param y1 The y coordinate of the first point
+ * @param x2 The x coordinate of the end point of the line
+ * @param y2 The y coordinate of the end point of the line.
+ * @param attr The attribute of the pixel.
+ */
 void drawLine(int x1, int y1, int x2, int y2, uint8_t attr) {
     int dx, dy, p, x, y;
 
@@ -142,6 +189,19 @@ void drawLine(int x1, int y1, int x2, int y2, uint8_t attr) {
     }
 }
 
+/**
+ * "Draw a circle by drawing a bunch of lines."
+ *
+ * The function starts by setting the initial values of the x and y coordinates to the radius of the
+ * circle. The err variable is used to keep track of the error between the actual and the desired
+ * radius
+ *
+ * @param x0 The x coordinate of the center of the circle
+ * @param y0 The y coordinate of the center of the circle
+ * @param radius The radius of the circle
+ * @param attr The attribute byte.
+ * @param fill 0 = hollow, 1 = filled
+ */
 void drawCircle(int x0, int y0, int radius, uint8_t attr, uint8_t fill) {
     int x = radius;
     int y = 0;

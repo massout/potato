@@ -13,6 +13,9 @@
 #define PM_WDOG_MAGIC 0x5a000000
 #define PM_RSTC_FULLRST 0x00000020
 
+/**
+ * It turns off the power to the Raspberry Pi
+ */
 void power_off() {
     uint64_t r;
 
@@ -56,6 +59,10 @@ void power_off() {
     *PM_RSTC = PM_WDOG_MAGIC | PM_RSTC_FULLRST;
 }
 
+/**
+ * It writes a magic number to the watchdog register, then writes a magic number to the reset register,
+ * then writes a magic number to the watchdog register again
+ */
 void reboot() {
     uint32_t r;
 
