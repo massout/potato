@@ -1,8 +1,8 @@
 #ifndef RAND_H
 #define RAND_H
 
-#include "gpio.h"
 #include "intdefs.h"
+#include "io.h"
 
 #define RNG_BASE ((volatile uint32_t *)(MMIO_BASE + 0x00104000))
 

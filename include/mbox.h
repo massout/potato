@@ -1,8 +1,8 @@
 #ifndef MBOX_H
 #define MBOX_H
 
-#include "gpio.h"
 #include "intdefs.h"
+#include "io.h"
 
 #define MBOX_REQUEST 0
 

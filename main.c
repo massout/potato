@@ -1,5 +1,5 @@
 #include "fb.h"
-#include "mmu/alloc.h"
+#include "mem.h"
 #include "timer.h"
 
 void main() {

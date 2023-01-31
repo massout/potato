@@ -1,8 +1,8 @@
 #ifndef POWER_H
 #define POWER_H
 
-#include "gpio.h"
 #include "intdefs.h"
+#include "io.h"
 #include "mbox.h"
 #include "timer.h"
 

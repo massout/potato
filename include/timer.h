@@ -1,8 +1,8 @@
 #ifndef TIMER_H
 #define TIMER_H
 
-#include "gpio.h"
 #include "intdefs.h"
+#include "io.h"
 
 #define SYSTMR_LO ((volatile uint32_t *)(MMIO_BASE + 0x00003004))
 #define SYSTMR_HI ((volatile uint32_t *)(MMIO_BASE + 0x00003008))
