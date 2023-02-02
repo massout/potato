@@ -14,34 +14,29 @@ void memcpy(void* src, void* dst, uint64_t n) {
     uint8_t* a = src;
     uint8_t* b = dst;
 
-    while (n-- > 0) {
-        (*b) = (*a);
-
-        a++;
-        b++;
-    }
+    while (n-- > 0)
+        (*b++) = (*a++);
 }
 
 /**
- * It compares two memory regions and returns the difference between the first two bytes that differ
+ * It compares two memory regions and returns 0 if they are equal, or a non-zero value if they are not
+ * equal
  *
  * @param s1 The first string to compare.
- * @param s2 The string to compare to.
+ * @param s2 The second string to compare.
  * @param n The number of bytes to compare.
  *
- * @return The difference between the first two different bytes.
+ * @return The difference between the two values.
  */
-void memcmp(void* s1, void* s2, uint64_t n) {
+int memcmp(void* s1, void* s2, uint64_t n) {
     uint8_t* a = s1;
     uint8_t* b = s2;
 
-    while (n-- > 0) {
-        if (*a != *b)
+    while (n-- > 0)
+        if ((*a++) != (*b++))
             return (*a) - (*b);
 
-        a++;
-        b++;
-    }
+    return 0;
 }
 
 /**
@@ -55,11 +50,8 @@ void memcmp(void* s1, void* s2, uint64_t n) {
 void memset(void* dest, char c, uint64_t n) {
     uint8_t* a = dest;
 
-    while (n-- > 0) {
-        (*a) = c;
-
-        a++;
-    }
+    while (n-- > 0)
+        (*a++) = c;
 }
 
 #endif
