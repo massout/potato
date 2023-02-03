@@ -9,9 +9,9 @@ void main() {
 
     draw_string(300, 300, "asdadasdads", 14);
 
-    move_rect_imm(100, 100, 50, 50, 200, 200, 0);
+    move_rect(100, 100, 50, 50, 200, 200, 0, 0);
 
-    move_rect_tp(300, 300, 20, 10, 90, 90, 0);
+    move_rect(300, 300, 20, 10, 90, 90, 0, 1);
 
     while (1)
         ;
