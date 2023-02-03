@@ -75,7 +75,7 @@ void fb_init() {
  * @param y The y coordinate of the pixel to draw.
  * @param attr The attribute byte.
  */
-void drawPixel(int x, int y, uint8_t attr) {
+void draw_pixel(int x, int y, uint8_t attr) {
     int offs = (y * pitch) + (x * 4);
     *((uint32_t *)(fb + offs)) = vgapal[attr & 0x0f];
 }
@@ -89,15 +89,16 @@ void drawPixel(int x, int y, uint8_t attr) {
  * @param attr The attribute byte. The lower 4 bits are the foreground color, and the upper 4 bits are
  * the background color.
  */
-void drawChar(uint8_t ch, int x, int y, uint8_t attr) {
+void draw_char(uint8_t ch, int x, int y, uint8_t attr) {
     uint8_t *glyph = (uint8_t *)&font + (ch < FONT_NUMGLYPHS ? ch : 0) * FONT_BPG;
+    uint8_t mask, col;
 
     for (int i = 0; i < FONT_HEIGHT; i++) {
         for (int j = 0; j < FONT_WIDTH; j++) {
-            uint8_t mask = 1 << j;
-            uint8_t col = (*glyph & mask) ? attr & 0x0f : (attr & 0xf) >> 4;
+            mask = 1 << j;
+            col = (*glyph & mask) ? attr & 0x0f : (attr & 0xf) >> 4;
 
-            drawPixel(x + j, y + i, col);
+            draw_pixel(x + j, y + i, col);
         }
 
         glyph += FONT_BPL;
@@ -112,7 +113,7 @@ void drawChar(uint8_t ch, int x, int y, uint8_t attr) {
  * @param s The string to draw
  * @param attr The attribute byte.
  */
-void drawString(int x, int y, char *s, uint8_t attr) {
+void draw_string(int x, int y, char *s, uint8_t attr) {
     while (*s) {
         if (*s == '\r') {
             x = 0;
@@ -120,7 +121,7 @@ void drawString(int x, int y, char *s, uint8_t attr) {
             x = 0;
             y += FONT_HEIGHT;
         } else {
-            drawChar(*s, x, y, attr);
+            draw_char(*s, x, y, attr);
             x += FONT_WIDTH;
         }
 
@@ -138,17 +139,17 @@ void drawString(int x, int y, char *s, uint8_t attr) {
  * @param attr The attribute byte.
  * @param fill 0 = no fill, 1 = fill
  */
-void drawRect(int x1, int y1, int x2, int y2, uint8_t attr, uint8_t fill) {
-    int y = y1;
+void draw_rect(int x1, int y1, int x2, int y2, uint8_t attr, uint8_t fill) {
+    int y = y1, x;
 
     while (y <= y2) {
-        int x = x1;
+        x = x1;
 
         while (x <= x2) {
             if ((x == x1 || x == x2) || (y == y1 || y == y2))
-                drawPixel(x, y, attr);
+                draw_pixel(x, y, attr);
             else if (fill)
-                drawPixel(x, y, (attr & 0xf));
+                draw_pixel(x, y, (attr & 0xf));
 
             x++;
         }
@@ -166,7 +167,7 @@ void drawRect(int x1, int y1, int x2, int y2, uint8_t attr, uint8_t fill) {
  * @param y2 The y coordinate of the end point of the line.
  * @param attr The attribute of the pixel.
  */
-void drawLine(int x1, int y1, int x2, int y2, uint8_t attr) {
+void draw_line(int x1, int y1, int x2, int y2, uint8_t attr) {
     int dx, dy, p, x, y;
 
     dx = x2 - x1;
@@ -177,11 +178,11 @@ void drawLine(int x1, int y1, int x2, int y2, uint8_t attr) {
 
     while (x < x2) {
         if (p >= 0) {
-            drawPixel(x, y, attr);
+            draw_pixel(x, y, attr);
             y++;
             p = p + 2 * dy - 2 * dx;
         } else {
-            drawPixel(x, y, attr);
+            draw_pixel(x, y, attr);
             p = p + 2 * dy;
         }
 
@@ -202,27 +203,27 @@ void drawLine(int x1, int y1, int x2, int y2, uint8_t attr) {
  * @param attr The attribute byte.
  * @param fill 0 = hollow, 1 = filled
  */
-void drawCircle(int x0, int y0, int radius, uint8_t attr, uint8_t fill) {
+void draw_circle(int x0, int y0, int radius, uint8_t attr, uint8_t fill) {
     int x = radius;
     int y = 0;
     int err = 0;
 
     while (x >= y) {
         if (fill) {
-            drawLine(x0 - y, y0 + x, x0 + y, y0 + x, (attr & 0xf));
-            drawLine(x0 - x, y0 + y, x0 + x, y0 + y, (attr & 0xf));
-            drawLine(x0 - x, y0 - y, x0 + x, y0 - y, (attr & 0xf));
-            drawLine(x0 - y, y0 - x, x0 + y, y0 - x, (attr & 0xf));
+            draw_line(x0 - y, y0 + x, x0 + y, y0 + x, (attr & 0xf));
+            draw_line(x0 - x, y0 + y, x0 + x, y0 + y, (attr & 0xf));
+            draw_line(x0 - x, y0 - y, x0 + x, y0 - y, (attr & 0xf));
+            draw_line(x0 - y, y0 - x, x0 + y, y0 - x, (attr & 0xf));
         }
 
-        drawPixel(x0 - y, y0 + x, attr);
-        drawPixel(x0 + y, y0 + x, attr);
-        drawPixel(x0 - x, y0 + y, attr);
-        drawPixel(x0 + x, y0 + y, attr);
-        drawPixel(x0 - x, y0 - y, attr);
-        drawPixel(x0 + x, y0 - y, attr);
-        drawPixel(x0 - y, y0 - x, attr);
-        drawPixel(x0 + y, y0 - x, attr);
+        draw_pixel(x0 - y, y0 + x, attr);
+        draw_pixel(x0 + y, y0 + x, attr);
+        draw_pixel(x0 - x, y0 + y, attr);
+        draw_pixel(x0 + x, y0 + y, attr);
+        draw_pixel(x0 - x, y0 - y, attr);
+        draw_pixel(x0 + x, y0 - y, attr);
+        draw_pixel(x0 - y, y0 - x, attr);
+        draw_pixel(x0 + y, y0 - x, attr);
 
         if (err <= 0) {
             y += 1;
@@ -234,6 +235,60 @@ void drawCircle(int x0, int y0, int radius, uint8_t attr, uint8_t fill) {
             err -= 2 * x + 1;
         }
     }
+}
+
+/**
+ * It moves a rectangle from one place to another.
+ *
+ * @param oldx The old x coordinate of the rectangle
+ * @param oldy The old y coordinate of the rectangle
+ * @param width Width of the rectangle
+ * @param height Height of the rectangle
+ * @param newx The new x coordinate of the rectangle
+ * @param newy The new y coordinate of the rectangle
+ * @param attr The attribute byte.
+ */
+void move_rect(int oldx, int oldy, uint32_t width, uint32_t height, int newx, int newy, uint8_t attr) {
+    int new_offs, old_offs;
+
+    for (uint32_t i = 0; i < height; i++) {
+        for (uint32_t j = 0; j < width; j++) {
+            old_offs = ((oldy + i) * pitch) + ((oldx + j) * 4);
+            new_offs = ((newy + i) * pitch) + ((newx + j) * 4);
+
+            *((uint32_t *)(fb + new_offs)) = *((uint32_t *)(fb + old_offs));
+        }
+    }
+
+    // Wipe it out old rectangle with background colour
+    draw_rect(oldx, oldy, oldx + width, oldy + width, attr, 1);
+}
+
+/**
+ * It moves a rectangle from one place to another with transparent specification.
+ *
+ * @param oldx The old x coordinate of the rectangle
+ * @param oldy The old y coordinate of the rectangle
+ * @param width Width of the rectangle
+ * @param height Height of the rectangle
+ * @param newx The new x coordinate of the rectangle
+ * @param newy The new y coordinate of the rectangle
+ * @param attr The attribute byte.
+ */
+void move_rect_tp(int oldx, int oldy, uint32_t width, uint32_t height, int newx, int newy, uint8_t attr) {
+    int new_offs, old_offs;
+
+    for (uint32_t i = 0; i < height; i++) {
+        for (uint32_t j = 0; j < width; j++) {
+            old_offs = ((oldy + i) * pitch) + ((oldx + j) * 4);
+            new_offs = ((newy + i) * pitch) + ((newx + j) * 4);
+
+            *((uint32_t *)(fb + new_offs)) |= *((uint32_t *)(fb + old_offs));
+        }
+    }
+
+    // Wipe it out old rectangle with background colour
+    draw_rect(oldx, oldy, oldx + width, oldy + width, attr, 1);
 }
 
 #endif

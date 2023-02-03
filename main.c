@@ -4,6 +4,22 @@
 
 void main() {
     fb_init();
+
+    draw_circle(100, 100, 50, 10, 1);
+
+    draw_string(300, 300, "asdadasdads", 14);
+
+    move_rect_imm(100, 100, 50, 50, 200, 200, 0);
+
+    move_rect_tp(300, 300, 20, 10, 90, 90, 0);
+
+    while (1)
+        ;
+}
+
+/*
+void main() {
+    fb_init();
     char arr[128];
 
     memset(arr, ' ', 127);
@@ -18,3 +34,4 @@ void main() {
         memset(arr, ' ', 127);
     }
 }
+*/
