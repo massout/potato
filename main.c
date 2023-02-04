@@ -2,36 +2,50 @@
 #include "mem.h"
 #include "timer.h"
 
+/**
+ * It draws the word "BOOTING" on the screen
+ */
+void boot() {
+/* A preprocessor directive. It checks if the file `fb.h` has been included. If not, it includes it. */
+#ifndef FB_H
+#include "fb.h"
+#endif
+
+    draw_string(50, 100, "                                                                                        ,----, ", 12);
+    draw_string(50, 108, "           ____                                          ,----..                      ,/   .`| ", 12);
+    draw_string(50, 116, "         ,'  , `.   ,---,       .--.--.    .--.--.      /   /   |                   ,`   .'  : ", 12);
+    draw_string(50, 124, "      ,-+-,.' _ |  '  .' |     /  /    '. /  /    '.   /   .     :          ,--,  ;    ;     / ", 12);
+    draw_string(50, 132, "   ,-+-. ;   , || /  ;    '.  |  :  /`. /|  :  /`. /  .   /   ;.  |       ,'_ /|.'___,/    ,'  ", 12);
+    draw_string(50, 140, "  ,--.'|'   |  ;|:  :       | ;  |  |--` ;  |  |--`  .   ;   /  ` ;  .--. |  | :|    :     |   ", 12);
+    draw_string(50, 148, " |   |  ,', |  '::  |   /|   ||  :  ;_   |  :  ;_    ;   |  ; | ; |,'_ /| :  . |;    |.';  ;   ", 12);
+    draw_string(50, 156, " |   | /  | |  |||  :  ' ;.   :|  |    `. |  |    `. |   :  | ; | '|  ' | |  . .`----'  |  |   ", 12);
+    draw_string(50, 164, " '   | :  | :  |,|  |  ;/| |   |`----.   | `----.   |.   |  ' ' ' :|  | ' |  | |    '   :  ;   ", 12);
+    draw_string(50, 172, " ;   . |  ; |--' '  :  | |  | ,'__ |  |  | __ |  |  |'   ;  |; /  |:  | | :  ' ;    |   |  '   ", 12);
+    draw_string(50, 180, " |   : |  | ,    |  |  '  '--' /  /`--'  //  /`--'  / |   |  ',  / |  ; ' |  | '    '   :  |   ", 12);
+    draw_string(50, 188, " |   : '  |/     |  :  :      '--'.     /'--'.     /   ;   :    /  :  | : ;  ; |    ;   |.'    ", 12);
+    draw_string(50, 196, " ;   | |`-'      |  | ,'        `--'---'   `--'---'     |   | .'   '  :  `--'  |    '---'      ", 12);
+    draw_string(50, 204, " |   ;/          `--''                                   `---`     :  ,      .-./              ", 12);
+    draw_string(50, 212, " '---'                                                              `--`----'                  ", 12);
+
+    draw_string(50, 236, "                                            BOOTING :)                                         ", 12);
+
+/* It checks if the file `timer.h` has been included. If not, it includes it. */
+#ifndef TIMER_H
+#include "timer.h"
+#endif
+
+    sleep_sec(2);
+
+    draw_rect(50, 100, 1000, 500, 0, 1);  // Wipe greeting message out
+}
+
 void main() {
     fb_init();
 
-    draw_circle(100, 100, 50, 10, 1);
+    boot();
 
-    draw_string(300, 300, "asdadasdads", 14);
-
-    move_rect(100, 100, 50, 50, 200, 200, 0, 0);
-
-    move_rect(300, 300, 20, 10, 90, 90, 0, 1);
+    draw_circle(20, 20, 5, 12, 1);
 
     while (1)
         ;
 }
-
-/*
-void main() {
-    fb_init();
-    char arr[128];
-
-    memset(arr, ' ', 127);
-
-    while (1) {
-        for (int i = 0; i < 128; i++) {
-            memset(arr, 219, i);
-            drawString(0, 8 * (i & 0xf), arr, i & 0xf);
-            sleep_sec(1);
-        }
-
-        memset(arr, ' ', 127);
-    }
-}
-*/

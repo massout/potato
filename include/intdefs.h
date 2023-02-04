@@ -1,7 +1,7 @@
 #ifndef INTDEFS_H
 #define INTDEFS_H
 
-#define NULL ((void *)0)
+#define NULL ((uint8_t *)0)
 
 typedef unsigned char uint8_t;
 typedef unsigned short uint16_t;

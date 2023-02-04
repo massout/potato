@@ -63,7 +63,7 @@ void fb_init() {
         pitch = mbox[33];
         isrgb = mbox[24];
 
-        fb = (uint8_t *)((long)mbox[28]);
+        fb = (uint8_t *)((uint64_t)mbox[28]);
     }
 }
 
