@@ -3,7 +3,7 @@
 #include "timer.h"
 
 /**
- * It draws the word "BOOTING" on the screen
+ * It draws the greeting message on the screen
  */
 void boot() {
 /* A preprocessor directive. It checks if the file `fb.h` has been included. If not, it includes it. */
