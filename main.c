@@ -3,13 +3,16 @@
 #include "timer.h"
 
 /**
- * It draws the greeting message on the screen
+ * It draws the greeting message to the screen
  */
 void boot() {
 /* A preprocessor directive. It checks if the file `fb.h` has been included. If not, it includes it. */
 #ifndef FB_H
 #include "fb.h"
 #endif
+
+    /* It initializes the framebuffer. */
+    fb_init();
 
     draw_string(50, 100, "                                                                                        ,----, ", 12);
     draw_string(50, 108, "           ____                                          ,----..                      ,/   .`| ", 12);
@@ -40,8 +43,6 @@ void boot() {
 }
 
 void main() {
-    fb_init();
-
     boot();
 
     draw_circle(20, 20, 5, 12, 1);
