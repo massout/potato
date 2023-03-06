@@ -68,7 +68,7 @@ char* itoa(int i, char b[]) {
     return b;
 }
 
-void printf(int x, int y, char* args, ...) {
+void printf(int x, int y, uint8_t attr, char* args, ...) {
 }
 
 #endif
