@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "format.h": "c",
+        "mem.h": "c",
+        "timer.h": "c"
+    }
+}

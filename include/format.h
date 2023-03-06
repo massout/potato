@@ -1,5 +1,5 @@
-#ifndef STRING_H
-#define STRING_H
+#ifndef FORMAT_H
+#define FORMAT_H
 
 #include "intdefs.h"
 
@@ -12,8 +12,8 @@
  *
  * @return the integer value of the string.
  */
-uint64_t str_to_int64(const char* p) {
-    uint64_t x = 0;
+int atoi(const char* p) {
+    int x = 0;
     uint8_t neg = 0;
 
     if (*p == '-') {
@@ -42,7 +42,7 @@ uint64_t str_to_int64(const char* p) {
  *
  * @return The address of the first element of the array.
  */
-char* int64_to_str(uint64_t i, char b[]) {
+char* itoa(int i, char b[]) {
     char const digit[] = "0123456789";
     char* p = b;
 
@@ -51,7 +51,7 @@ char* int64_to_str(uint64_t i, char b[]) {
         i *= -1;
     }
 
-    uint64_t shifter = i;
+    int shifter = i;
 
     do {  // Move to where representation ends
         ++p;
@@ -66,6 +66,9 @@ char* int64_to_str(uint64_t i, char b[]) {
     } while (i);
 
     return b;
+}
+
+void printf(int x, int y, char* args, ...) {
 }
 
 #endif

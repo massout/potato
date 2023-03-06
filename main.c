@@ -1,4 +1,5 @@
 #include "fb.h"
+#include "format.h"
 #include "mem.h"
 #include "timer.h"
 
@@ -44,8 +45,9 @@ void boot() {
 
 void main() {
     boot();
+    char *b = "";
 
-    draw_circle(20, 20, 5, 12, 1);
+    draw_string(10, 10, itoa(atoi("-256"), b), 12);
 
     while (1)
         ;
